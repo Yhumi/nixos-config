@@ -5,6 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-nightly.url = "github:nixos/nixpkgs";
     nix-gaming.url = "github:fufexan/nix-gaming";
+    lanzaboote.url = "github:nix-community/lanzaboote/v0.4.2";
   };
 
   outputs = inputs:
@@ -21,7 +22,10 @@
             pkgs-nightly = import inputs.nixpkgs-nightly { system = system; };
             nix-gaming = inputs.nix-gaming;
           };
-          modules = [ ./configuration.nix ];
+          modules = [ 
+            inputs.lanzaboote.nixosModules.lanzaboote 
+            ./configuration.nix 
+          ];
         };
       };
     };

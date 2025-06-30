@@ -2,8 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-nightly, nix-gaming, ... }:
-
+{ config, pkgs, pkgs-nightly, nix-gaming, lanzaboote, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -28,11 +27,16 @@
 
   # Bootloader.
   boot.loader = {
-    systemd-boot.enable = true;
+    systemd-boot.enable = false;
     efi = {
       #efiSysMountPoint = "/boot/efi";
       canTouchEfiVariables = true;
     };
+  };
+
+  boot.lanzaboote = {
+    enable = true;
+    pkiBundle = "/var/lib/sbctl";
   };
 
   boot.supportedFilesystems = [ "ntfs" ];
@@ -93,10 +97,10 @@
 	    postBuild = ''
           wrapProgram $out/bin/kitty --set KITTY_CONFIG_DIRECTORY "${./ext/kitty}"
 	    '';
-	})
+    })
 
-	nixpkgs.niv
-	sbctl
+    niv
+    sbctl
   ];
   services.udev.packages = [ pkgs.via ];
   services.printing.enable = true;
