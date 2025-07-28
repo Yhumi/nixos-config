@@ -104,6 +104,7 @@
 
     niv
     sbctl
+    wireproxy
   ];
 
   services.udev.packages = [ pkgs.via ];

@@ -1,3 +1,4 @@
+{ pkgs, ... }:
 {
     # Enable networking
     networking.hostName = "nixos"; # Define your hostname.
@@ -12,4 +13,12 @@
     # networking.firewall.allowedUDPPorts = [  ];
     # Or disable the firewall altogether.
     #networking.firewall.enable = false;
+
+    systemd.services.wireproxy = {
+        path = [ pkgs.wireproxy ];
+        script = ''
+            wireproxy -c /etc/wg.conf
+        '';
+        wantedBy = [ "multi-user.target" ];
+    };
 }
