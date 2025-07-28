@@ -2,7 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-nightly, nix-gaming, lanzaboote, ... }:
+{ config, pkgs, pkgs-nightly, nix-gaming, lib, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
@@ -27,16 +27,18 @@
 
   # Bootloader.
   boot.loader = {
-    systemd-boot.enable = false;
+    systemd-boot.enable = true;
+
     efi = {
-      #efiSysMountPoint = "/boot/efi";
+      # efiSysMountPoint = "/boot/EFI";
       canTouchEfiVariables = true;
     };
-  };
 
-  boot.lanzaboote = {
-    enable = true;
-    pkiBundle = "/var/lib/sbctl";
+    grub = {
+      devices = [ "nodev" ];
+      useOSProber = true;
+      efiSupport = true;
+    };
   };
 
   boot.supportedFilesystems = [ "ntfs" ];
@@ -68,21 +70,22 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    vim
+    #vim
     wget
     git
     neofetch
 
     discord
 
-    vscode
-    kdePackages.kate
+    direnv
+    vscode-fhs
     via
     steam-run
 
     obs-studio
     qbittorrent
     youtube-music
+    milkytracker
 
     rar
     unrar
@@ -102,6 +105,7 @@
     niv
     sbctl
   ];
+
   services.udev.packages = [ pkgs.via ];
   services.printing.enable = true;
 
@@ -137,8 +141,13 @@
     enable = true;
     autoStart = true;
     capSysAdmin = true;
-    openFirewall = true;
-    
+    openFirewall = true;    
+  };
+
+  programs.direnv.enable = true;
+  programs.neovim = {
+    enable = true;
+    defaultEditor = true;
   };
 
   # Misc
@@ -148,7 +157,7 @@
   };
 
   hardware.keyboard.qmk.enable = true;
-
+ 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
