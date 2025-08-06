@@ -5,6 +5,7 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-nightly.url = "github:nixos/nixpkgs";
     nix-gaming.url = "github:fufexan/nix-gaming";
+    jovian.url = "github:jovian-experiments/jovian-nixos";
   };
 
   outputs = inputs:
@@ -23,6 +24,17 @@
           };
           modules = [
             ./configuration.nix 
+          ];
+        };
+        steam = inputs.nixpkgs.lib.nixosSystem
+        {
+          specialArgs = { 
+            pkgs-nightly = import inputs.nixpkgs-nightly { system = system; };
+            nix-gaming = inputs.nix-gaming;
+            jovian = inputs.jovian;
+          };
+          modules = [
+            ./sd-config.nix 
           ];
         };
       };

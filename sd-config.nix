@@ -2,67 +2,65 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, pkgs-nightly, nix-gaming, lib, ... }:
+{ config, pkgs, pkgs-nightly, nix-gaming, jovian, lib, ... }:
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./sd-hardware-configuration.nix
 
-      #Other
+      # Jovian Modules
+      "${jovian}/modules"
+
+      # Other
       ./sys/locale_gb.nix
-      ./sys/nvidia.nix
-      ./sys/pipewire.nix
       ./sys/network.nix
     ];
 
-  # Define hostname for PC config
-  networking.hostName = "nixos";
+  # Define hostname for SteamDeck  
+  networking.hostName = "steam";
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
   nix.settings = {
     experimental-features = [ "nix-command" "flakes" ];
     auto-optimise-store = true;
-
-    substituters = ["https://nix-gaming.cachix.org"];
-    trusted-public-keys = ["nix-gaming.cachix.org-1:nbjlureqMbRAxR1gJ/f3hxemL9svXaZF/Ees8vCUUs4="];
   };
 
   # Bootloader.
   boot.loader = {
-    systemd-boot.enable = false;
+    systemd-boot.enable = true;
 
     efi = {
-      # efiSysMountPoint = "/boot/EFI";
+      #efiSysMountPoint = "/boot/EFI";
       canTouchEfiVariables = true;
-    };
-
-    grub = {
-      devices = [ "nodev" ];
-      useOSProber = true;
-      efiSupport = true;
     };
   };
 
-  boot.supportedFilesystems = [ "ntfs" ];
+  # SteamDeck Hardware
+  jovian.devices = {
+    steamdeck = {
+      enable = true;
+    };
+  };
 
-  # Enable windowing system.
-  services.xserver.enable = false;
+  # Enable SteamBoot
+  jovian.steam = {
+    enable = true;
+    autoStart = true;
+    desktopSession = "plasma";
+    user = "nicole";
+  };
 
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager = {
     sddm = {
-      enable = true;
+      #enable = true;
       wayland.enable = true;
     };
   };
 
   services.desktopManager.plasma6.enable = true;
   programs.kdeconnect.enable = true;
-
-  # Workaround for GNOME autologin: https://github.com/NixOS/nixpkgs/issues/103746#issuecomment-945091229
-  systemd.services."getty@tty1".enable = false;
-  systemd.services."autovt@tty1".enable = false;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.nicole = {
@@ -141,12 +139,12 @@
     localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
   };
 
-  services.sunshine = {
-    enable = true;
-    autoStart = true;
-    capSysAdmin = true;
-    openFirewall = true;    
-  };
+  #services.sunshine = {
+  #  enable = true;
+  #  autoStart = true;
+  #  capSysAdmin = true;
+  #  openFirewall = true;    
+  #};
 
   programs.direnv.enable = true;
   programs.neovim = {

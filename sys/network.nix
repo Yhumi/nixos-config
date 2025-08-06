@@ -1,7 +1,6 @@
 { pkgs, ... }:
 {
     # Enable networking
-    networking.hostName = "nixos"; # Define your hostname.
     networking.networkmanager.enable = true;
 
     # Enable the OpenSSH daemon.
