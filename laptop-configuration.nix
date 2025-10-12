@@ -6,7 +6,7 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
+      ./laptop-hardware.nix
 
       # Packages
       ./sys/basic_packages.nix
@@ -14,7 +14,7 @@
       ./sys/music_packages.nix
       ./sys/aws.nix
 
-      #Other
+      # Other
       ./sys/locale_gb.nix
       ./sys/nvidia.nix
       ./sys/pipewire.nix
@@ -51,6 +51,7 @@
   };
 
   boot.supportedFilesystems = [ "ntfs" ];
+  time.hardwareClockInLocalTime = true;
 
   # Enable windowing system.
   services.xserver.enable = false;
@@ -79,18 +80,10 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    pkgs-nightly.prismlauncher
-    
-    sbctl
-    wireproxy
+    inkscape
+    gimp3
+    blender
   ];
-
-  services.sunshine = {
-    enable = true;
-    autoStart = true;
-    capSysAdmin = true;
-    openFirewall = true;    
-  };
 
   # Misc
   environment.sessionVariables = {

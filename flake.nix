@@ -37,6 +37,16 @@
             ./sd-config.nix 
           ];
         };
+	laptop = inputs.nixpkgs.lib.nixosSystem
+	{
+	  specialArgs = {
+	    pkgs-nightly = import inputs.nixpkgs-nightly { system = system; };
+	    nix-gaming = inputs.nix-gaming; 
+	  };
+	  modules = [
+	    ./laptop-configuration.nix
+	  ];
+	};
       };
     };
 }

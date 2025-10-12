@@ -11,6 +11,11 @@
       # Jovian Modules
       "${jovian}/modules"
 
+      # Packages
+      ./sys/basic_packages.nix
+      ./sys/dev_packages.nix
+      ./sys/music_packages.nix
+
       # Other
       ./sys/locale_gb.nix
       ./sys/network.nix
@@ -71,102 +76,14 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    #vim
-    wget
-    git
-    neofetch
-
-    discord
-
-    direnv
-    vscode-fhs
-    via
-    steam-run
-
-    obs-studio
-    qbittorrent
-    youtube-music
-    milkytracker
-
-    rar
-    unrar
-
     pkgs-nightly.prismlauncher
-
-    btop
-    (symlinkJoin {
-	    name = "kitty";
-	    paths = [ pkgs.kitty ];
-	    nativeBuildInputs = [ pkgs.makeWrapper ];
-	    postBuild = ''
-          wrapProgram $out/bin/kitty --set KITTY_CONFIG_DIRECTORY "${./ext/kitty}"
-	    '';
-    })
-
-    niv
-    sbctl
-    wireproxy
   ];
-
-  services.udev.packages = [ pkgs.via ];
-  services.printing.enable = true;
-
-  # Programs
-  # Thanks for the firefox config Bea :3
-  programs.firefox.enable = true;
-  programs.firefox.package = pkgs.firefox-devedition;
-  programs.firefox.policies.CaptivePortal = false;
-  programs.firefox.policies.DisableTelemetry = true;
-  programs.firefox.policies.DisableFirefoxStudies = true;
-  programs.firefox.policies.DisablePocket = true;
-  programs.firefox.policies.DisableFirefoxAccounts = true;
-  programs.firefox.policies.DisableAccounts = true;
-  programs.firefox.policies.DisableFirefoxScreenshots = true;
-  programs.firefox.policies.FirefoxHome = { Pocket = false; Snippets = false; TopSites = false; Highlights = false; };
-  programs.firefox.policies.UserMessaging = { ExtensionRecommendations = false; SkipOnboarding = true; };
-  programs.firefox.policies.EnableTrackingProtection = { Value = true; Locked = true; Cryptomining = true; Fingerprinting = true; };
-  programs.firefox.policies.Extensions.Install = [
-      "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi"
-      "https://addons.mozilla.org/firefox/downloads/latest/image-search-options/latest.xpi"
-      "https://addons.mozilla.org/firefox/downloads/latest/translate-web-pages/latest.xpi"
-      "https://addons.mozilla.org/firefox/downloads/latest/dashlane/latest.xpi"
-  ];
-
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-    localNetworkGameTransfers.openFirewall = true; # Open ports in the firewall for Steam Local Network Game Transfers
-  };
-
-  #services.sunshine = {
-  #  enable = true;
-  #  autoStart = true;
-  #  capSysAdmin = true;
-  #  openFirewall = true;    
-  #};
-
-  programs.direnv.enable = true;
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-  };
 
   # Misc
   environment.sessionVariables = {
       NIXOS_OZONE_WL = "1";
       MOZ_ENABLE_WAYLAND = "1";
   };
-
-  hardware.keyboard.qmk.enable = true;
- 
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
