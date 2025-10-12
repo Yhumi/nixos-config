@@ -17,7 +17,7 @@
 	    paths = [ pkgs.kitty ];
 	    nativeBuildInputs = [ pkgs.makeWrapper ];
 	    postBuild = ''
-          wrapProgram $out/bin/kitty --set KITTY_CONFIG_DIRECTORY "${./ext/kitty}"
+          wrapProgram $out/bin/kitty --set KITTY_CONFIG_DIRECTORY "${../ext/kitty}"
 	    '';
     }) 
   ];
