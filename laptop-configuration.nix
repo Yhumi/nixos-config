@@ -9,10 +9,10 @@
       ./laptop-hardware.nix
 
       # Packages
-      ./sys/basic_packages.nix
-      ./sys/dev_packages.nix
-      ./sys/music_packages.nix
-      ./sys/aws.nix
+      ./pkgs/basic_packages.nix
+      ./pkgs/dev_packages.nix
+      ./pkgs/music_packages.nix
+      ./pkgs/aws.nix
 
       # Other
       ./sys/locale_gb.nix
