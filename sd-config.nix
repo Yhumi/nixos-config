@@ -76,6 +76,7 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
+    xivlauncher
     pkgs-nightly.prismlauncher
   ];
 
