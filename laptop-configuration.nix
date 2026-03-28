@@ -19,6 +19,7 @@
       ./sys/nvidia.nix
       ./sys/pipewire.nix
       ./sys/network.nix
+      # ./sys/mc-server.nix
     ];
 
   # Define hostname for PC config

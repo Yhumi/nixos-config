@@ -6,6 +6,8 @@
     nixpkgs-nightly.url = "github:nixos/nixpkgs";
     nix-gaming.url = "github:fufexan/nix-gaming";
     jovian.url = "github:jovian-experiments/jovian-nixos";
+    copyparty.url = "github:9001/copyparty";
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
 
   outputs = inputs:
@@ -47,6 +49,18 @@
             ./laptop-configuration.nix
           ];
         };
+	server = inputs.nixpkgs.lib.nixosSystem
+	{
+	  specialArgs = {
+	    pkgs-nightly = import inputs.nixpkgs-nightly { system = system; };
+	    copyparty = import inputs.copyparty;
+	    nix-minecraft = import inputs.nix-minecraft;
+	  };
+  	  modules = [
+	    inputs.copyparty.nixosModules.default
+	    ./server-configuration.nix
+	  ];
+	};
       };
     };
 }
