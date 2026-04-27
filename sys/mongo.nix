@@ -4,6 +4,6 @@
     enable = true;
     enableAuth = true;
 
-    initialRootPasswordFile = /run/secure/mongodb-password
+    initialRootPasswordFile = /run/secure/mongodb-password;
   };
 }
