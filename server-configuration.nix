@@ -19,6 +19,9 @@
       ./sys/nginx.nix
       # bea's stupid gay website
       #./sys/bea-website.nix
+
+      # Nicole's Mongodb for whenever I migrate my shit.
+      ./sys/mongo.nix
     ];
 
   # Flake garbage
@@ -81,7 +84,7 @@
   # You can use https://search.nixos.org/ to find more packages (and options).
   environment.systemPackages = with pkgs; [
     neovim
-    neofetch
+    fastfetch
     wget
 
     git
@@ -100,6 +103,9 @@
       PermitRootLogin = "yes";
     };
   };
+
+  # Docker
+  virtualisation.docker.enable = true;
 
   # Copyparty
   # services.copyparty = {

@@ -10,12 +10,13 @@
       BobTheBob9 = "b0b64871-ada6-4c87-a272-0171b02f6551";
       keris_xiv = "e15a2398-ded0-4f20-91ca-c35ba32f4907";
       Mythcall = "16ec217e-e08e-4f81-90be-6654d0b20573";
+      CosmoMemory_ = "49cb0553-75c0-452f-b653-c9ee0a9ccddc";
     };
     serverProperties = {
       server-port = 43565; # Default Port
       difficulty = 2; # 2 = Normal
       gamemode = 0;
-      max-players = 4;
+      max-players = 5;
       motd = "Miyei Minecraft Server";
       white-list = true;
       allow-cheats = false;
